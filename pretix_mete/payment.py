@@ -72,7 +72,7 @@ class Mete(BasePaymentProvider):
                 "sugar": 0,
                 "price": payment.amount,
                 "image": 0,
-                "active": true
+                "active": True
                 }
         params = prepare_params(item, "drink")
         res = requests.post("%s/api/v1/%s" %(request.event.settings.payment_mete_meteserver, "drinks"), params=params, headers={'Content-Type': 'application/json'})
