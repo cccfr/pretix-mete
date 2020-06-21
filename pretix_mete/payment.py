@@ -87,7 +87,7 @@ class Mete(BasePaymentProvider):
         res = requests.patch("%s/api/v1/%s/%s" %(request.event.settings.payment_mete_meteserver, "drinks", res.json()["id"]), params=params, headers={'Content-Type': 'application/json'})
         if res.status_code != 204:
             # TODO more verbose error logging
-            self.logger.error("error posting the order to mete:\nreturncode: %s\nparams:%s\nserver response\n%s" %(res.status_code, params, res.text))
+            self.logger.error("error posting the price to mete:\nreturncode: %s\nparams:%s\nserver response\n%s" %(res.status_code, params, res.text))
             raise PaymentException
 
     def prepare_params(self, item, kind):
