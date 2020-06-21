@@ -1,0 +1,9 @@
+[Unit]
+Description=mete-watch
+
+[Service]
+ExecStart=/usr/bin/python3 /root/watch-mete/watch.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
