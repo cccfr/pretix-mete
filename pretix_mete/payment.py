@@ -73,7 +73,7 @@ class Mete(BasePaymentProvider):
                 "alcohol": 0,
                 "energy": 0,
                 "sugar": 0,
-                "donation_recommendation": str(payment.amount*100).split(".")[0],
+                "price": str(payment.amount*100).split(".")[0],
                 "image": 0,
                 "active": True
                 }
@@ -84,7 +84,12 @@ class Mete(BasePaymentProvider):
             # TODO more verbose error logging
             self.logger.error("error posting the order to mete:\nreturncode: %s\nparams:%s\nserver response\n%s" %(res.status_code, params, res.text))
             raise PaymentException
-        
+        res = requests.patch("%s/api/v1/%s/%s" %(request.event.settings.payment_mete_meteserver, "drinks", res.json()["id"]), params=params, headers={'Content-Type': 'application/json'})
+        if res.status_code != 204:
+            # TODO more verbose error logging
+            self.logger.error("error posting the order to mete:\nreturncode: %s\nparams:%s\nserver response\n%s" %(res.status_code, params, res.text))
+            raise PaymentException
+
     def prepare_params(self, item, kind):
         params = {}
         for key in item.keys():
