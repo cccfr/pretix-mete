@@ -74,13 +74,13 @@ class Mete(BasePaymentProvider):
                 "image": 0,
                 "active": True
                 }
-        params = prepare_params(item, "drink")
+        params = self.prepare_params(item, "drink")
         res = requests.post("%s/api/v1/%s" %(request.event.settings.payment_mete_meteserver, "drinks"), params=params, headers={'Content-Type': 'application/json'})
         if res.status_code != 200:
             # TODO more verbose error logging
             raise
         
-    def prepare_params(item, kind):
+    def prepare_params(self, item, kind):
         params = {}
         for key in item.keys():
             params[kind+"["+key+"]"] = item[key]
