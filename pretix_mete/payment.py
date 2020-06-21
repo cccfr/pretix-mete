@@ -3,7 +3,7 @@ import requests
 
 class Mete(BasePaymentProvider):
     identifier = 'mete'
-    verbose_name = _('Mete')
+    verbose_name = 'Mete'
     payment_form_fields = OrderedDict([
     ])
 
