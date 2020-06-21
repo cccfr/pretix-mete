@@ -78,6 +78,7 @@ class Mete(BasePaymentProvider):
                 "active": True
                 }
         params = self.prepare_params(item, "drink")
+        self.logger.info("sending order to mete:\n%s" %params)
         res = requests.post("%s/api/v1/%s" %(request.event.settings.payment_mete_meteserver, "drinks"), params=params, headers={'Content-Type': 'application/json'})
         if res.status_code != 201:
             # TODO more verbose error logging
