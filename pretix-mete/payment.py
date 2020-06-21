@@ -52,7 +52,7 @@ class Mete(BasePaymentProvider):
 
     def execute_payment(self, request: HttpRequest, payment: OrderPayment):
         item = {
-                "name": Payment.Order.code,
+                "name": "Schwarze Lunge #"+Payment.Order.code,
                 "caffeine": 0,
                 "alcohol": 0,
                 "energy": 0,
