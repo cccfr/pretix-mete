@@ -57,9 +57,15 @@ class Mete(BasePaymentProvider):
         # TODO: render nice html
         return "this order will appear on the Mete pad so you (or someone else) can pay for it)"
 
+    def payment_is_valid_session(self, request):
+        return True
+
+    def payment_prepare(self, request: HttpRequest, payment: OrderPayment):
+        return True
+
     def execute_payment(self, request: HttpRequest, payment: OrderPayment):
         item = {
-                "name": "Schwarze Lunge #"+payment.Order.code,
+                "name": "Schwarze Lunge #%s~%s" %(payment.Order.code, payment.local_id),
                 "caffeine": 0,
                 "alcohol": 0,
                 "energy": 0,
