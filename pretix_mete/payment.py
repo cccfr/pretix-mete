@@ -68,8 +68,8 @@ class Mete(BasePaymentProvider):
             raise
         
     def prepare_params(item, kind):
-    params = {}
-    for key in item.keys():
-        params[kind+"["+key+"]"] = item[key]
-    return urlencode(params)
+        params = {}
+        for key in item.keys():
+            params[kind+"["+key+"]"] = item[key]
+        return urlencode(params)
 
