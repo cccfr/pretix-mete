@@ -73,7 +73,7 @@ class Mete(BasePaymentProvider):
                 "alcohol": 0,
                 "energy": 0,
                 "sugar": 0,
-                "price": payment.amount*100,
+                "price": int(payment.amount*100),
                 "image": 0,
                 "active": True
                 }
