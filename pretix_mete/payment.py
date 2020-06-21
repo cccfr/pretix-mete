@@ -25,13 +25,13 @@ class Mete(BasePaymentProvider):
             ('meteserver',
              forms.CharField(
                  widget=forms.Textarea,
-                 label=_('Mete Server'),
+                 label='Mete Server',
                  required=True
              )),
              ('meteuser',
              forms.CharField(
                  widget=forms.Textarea,
-                 label=_('Mete User'),
+                 label='Mete User',
                  required=True
              ))
         ]
