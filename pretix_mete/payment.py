@@ -38,7 +38,7 @@ class Mete(BasePaymentProvider):
     )
     
     def checkout_prepare(self, request, cart):
-        res = requests.get("http://%s/drinks/" %(request.event.settings.payment_mete_meteserver))
+        res = requests.get("%s/drinks/" %(request.event.settings.payment_mete_meteserver))
         if res.status_code != 200:
             # TODO: add error message via django message framework
             return False
