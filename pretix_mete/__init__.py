@@ -9,7 +9,7 @@ __version__ = '1.0.0'
 
 
 class PluginApp(PluginConfig):
-    name = 'pretix-mete'
+    name = 'pretix_mete'
     verbose_name = 'Mete'
 
     class PretixPluginMeta:
@@ -25,4 +25,4 @@ class PluginApp(PluginConfig):
         from . import signals  # NOQA
 
 
-default_app_config = 'pretix-mete.PluginApp'
+default_app_config = 'pretix_mete.PluginApp'

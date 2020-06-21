@@ -26,11 +26,11 @@ cmdclass = {
 
 
 setup(
-    name='pretix-mete',
+    name='pretix_mete',
     version=__version__,
     description='mete payment plugin',
     long_description=long_description,
-    url='https://github.com/cccfr/pretix-mete',
+    url='https://github.com/cccfr/pretix_mete',
     author='CCCFr',
     author_email='pretix@cccfr.de',
     license='Apache',
@@ -41,6 +41,6 @@ setup(
     cmdclass=cmdclass,
     entry_points="""
 [pretix.plugin]
-pretix-mete=pretix-mete:PretixPluginMeta
+pretix_mete=pretix_mete:PretixPluginMeta
 """,
 )
