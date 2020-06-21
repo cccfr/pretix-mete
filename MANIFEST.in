@@ -1,0 +1,3 @@
+recursive-include pretix-mete/static *
+recursive-include pretix-mete/templates *
+recursive-include pretix-mete/locale *
