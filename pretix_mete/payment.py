@@ -1,6 +1,7 @@
 from pretix.base.payment import BasePaymentProvider, PaymentException
 from pretix.base.settings import SettingsSandbox
 from pretix.base.models import Event, Order, OrderPayment, OrderRefund, Quota
+from django.http import HttpRequest
 from django import forms
 
 from collections import OrderedDict
