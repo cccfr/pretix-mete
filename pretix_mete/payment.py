@@ -1,12 +1,14 @@
 from pretix.base.payment import BasePaymentProvider, PaymentException
 from pretix.base.settings import SettingsSandbox
 from pretix.base.models import Event, Order, OrderPayment, OrderRefund, Quota
+from pretix.base.payment import PaymentException
 from django.http import HttpRequest
 from django import forms
 
 from collections import OrderedDict
 from urllib.parse import urlencode
 import requests
+import logging
 
 class Mete(BasePaymentProvider):
     identifier = 'mete'
@@ -17,6 +19,7 @@ class Mete(BasePaymentProvider):
     def __init__(self, event: Event):
         super().__init__(event)
         self.settings = SettingsSandbox('payment', 'mete', event)
+        self.logger = logging.getLogger("Mete-Provider")
         
     @property
     def settings_form_fields(self):
@@ -78,7 +81,8 @@ class Mete(BasePaymentProvider):
         res = requests.post("%s/api/v1/%s" %(request.event.settings.payment_mete_meteserver, "drinks"), params=params, headers={'Content-Type': 'application/json'})
         if res.status_code != 200:
             # TODO more verbose error logging
-            raise
+            self.logger.error("error posting the order to mete:\n"+res.text)
+            raise PaymentException
         
     def prepare_params(self, item, kind):
         params = {}
