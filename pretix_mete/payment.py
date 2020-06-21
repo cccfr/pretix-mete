@@ -1,4 +1,10 @@
 from pretix.base.payment import BasePaymentProvider, PaymentException
+from pretix.base.settings import SettingsSandbox
+from pretix.base.models import Event, Order, OrderPayment, OrderRefund, Quota
+from django import forms
+
+from collections import OrderedDict
+from urllib.parse import urlencode
 import requests
 
 class Mete(BasePaymentProvider):
@@ -52,12 +58,12 @@ class Mete(BasePaymentProvider):
 
     def execute_payment(self, request: HttpRequest, payment: OrderPayment):
         item = {
-                "name": "Schwarze Lunge #"+Payment.Order.code,
+                "name": "Schwarze Lunge #"+payment.Order.code,
                 "caffeine": 0,
                 "alcohol": 0,
                 "energy": 0,
                 "sugar": 0,
-                "price": Payment.amount,
+                "price": payment.amount,
                 "image": 0,
                 "active": true
                 }
