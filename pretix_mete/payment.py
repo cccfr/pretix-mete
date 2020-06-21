@@ -35,7 +35,7 @@ class Mete(BasePaymentProvider):
         if res.status_code != 200:
             # TODO: add error message via django message framework
             return False
-        else
+        else:
             return True
 
     @property
