@@ -90,12 +90,12 @@ class Mete(BasePaymentProvider):
             self.logger.error("error posting the price to mete:\nreturncode: %s\nparams:%s\nserver response\n%s" %(res.status_code, params, res.text))
             raise PaymentException
 
-    def cancel_payment(self, payment: OrderPayment):
-        items = requests.get("%s/api/v1/%s" %(request.event.settings.payment_mete_meteserver, "drinks")).json()
-        for drink in drinks:
-            if "~SL~ %s#%s~%s" %(payment.order.event.name, payment.order.code, payment.local_id) in drink["name"]:
-                res = requests.delete("%s/api/v1/%s/%s" %(request.event.settings.payment_mete_meteserver, "drinks", drink["id"]))
-                self.logger.info("delete order payment.order.code\n%s" %payment.order.code)
+    #def cancel_payment(self, payment: OrderPayment):
+    #    items = requests.get("%s/api/v1/%s" %(request.event.settings.payment_mete_meteserver, "drinks")).json()
+    #    for drink in drinks:
+    #        if "~SL~ %s#%s~%s" %(payment.order.event.name, payment.order.code, payment.local_id) in drink["name"]:
+    #            res = requests.delete("%s/api/v1/%s/%s" %(request.event.settings.payment_mete_meteserver, "drinks", drink["id"]))
+    #            self.logger.info("delete order payment.order.code\n%s" %payment.order.code)
 
     def prepare_params(self, item, kind):
         params = {}
