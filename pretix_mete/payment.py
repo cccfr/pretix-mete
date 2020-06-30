@@ -94,7 +94,7 @@ class Mete(BasePaymentProvider):
         items = requests.get("%s/api/v1/%s" %(meteserver, "drinks")).json()
         for drink in drinks:
             if "~SL~ %s#%s~%s" %(payment.order.event.name, payment.order.code, payment.local_id) in drink["name"]:
-                requests.delete("%s/api/v1/%s/%s" %(request.event.settings.payment_mete_meteserver, "drinks", drink["id"])
+                requests.delete("%s/api/v1/%s/%s" %(request.event.settings.payment_mete_meteserver, "drinks", drink["id"]))
 
     def prepare_params(self, item, kind):
         params = {}
