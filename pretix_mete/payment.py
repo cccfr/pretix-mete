@@ -68,7 +68,7 @@ class Mete(BasePaymentProvider):
 
     def execute_payment(self, request: HttpRequest, payment: OrderPayment):
         item = {
-                "name": "Schwarze Lunge #%s~%s" %(payment.order.code, payment.local_id),
+                "name": "~SL~ %s#%s~%s" %(payment.order.event.name, payment.order.code, payment.local_id),
                 "caffeine": 0,
                 "alcohol": 0,
                 "energy": 0,
@@ -89,6 +89,12 @@ class Mete(BasePaymentProvider):
             # TODO more verbose error logging
             self.logger.error("error posting the price to mete:\nreturncode: %s\nparams:%s\nserver response\n%s" %(res.status_code, params, res.text))
             raise PaymentException
+
+    def cancel_payment(self, payment: pretix.base.models.orders.OrderPayment):
+        items = requests.get("%s/api/v1/%s" %(meteserver, "drinks")).json()
+        for drink in drinks:
+            if "~SL~ %s#%s~%s" %(payment.order.event.name, payment.order.code, payment.local_id) in drink["name"]:
+                requests.delete("%s/api/v1/%s/%s" %(request.event.settings.payment_mete_meteserver, "drinks", drink["id"])
 
     def prepare_params(self, item, kind):
         params = {}
