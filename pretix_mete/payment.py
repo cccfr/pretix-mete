@@ -90,7 +90,7 @@ class Mete(BasePaymentProvider):
             self.logger.error("error posting the price to mete:\nreturncode: %s\nparams:%s\nserver response\n%s" %(res.status_code, params, res.text))
             raise PaymentException
 
-    def cancel_payment(self, payment: pretix.base.models.orders.OrderPayment):
+    def cancel_payment(self, payment: OrderPayment):
         items = requests.get("%s/api/v1/%s" %(meteserver, "drinks")).json()
         for drink in drinks:
             if "~SL~ %s#%s~%s" %(payment.order.event.name, payment.order.code, payment.local_id) in drink["name"]:
