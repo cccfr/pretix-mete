@@ -2,13 +2,25 @@ import requests, json
 from urllib.parse import urlencode
 from time import sleep
 
-#meteserver = "http://172.16.0.69:3000"
-meteserver = "http://mete.cloud.cccfr"
+meteserver = "http://172.16.0.69:3000"
+#meteserver = "http://mete.cloud.cccfr"
 pretixserver = "https://schwarzelunge.club.klaut.cloud"
 organizer = "hustepeter"
-event = "caferuss"
 username = "schwarzelunge@cccfr.de"
 userid = 0
+headers = {}
+
+checked_audits = []
+
+def filter_audits(audits):
+    global checked_audits
+    returns = []
+    for audit in audits:
+        if not audit["id"] in checked_audits:
+            returns.append(audit)
+            checked_audits.append(audit["id"])
+    print("new payments: %s" %returns)
+    return returns
 
 def get_items(category):
     items = requests.get("%s/api/v1/%s" %(meteserver, category)).json()
@@ -31,7 +43,8 @@ def prepare_params(item, kind):
 def filter_drinks(drinks):
     filterdrinks = {}
     for drink in drinks:
-        if "Schwarze Lunge #" in drink["name"]:
+        #"~SL~ %s#%s~%s" %(payment.order.event.name, payment.order.code, payment.local_id)
+        if "~SL~ " in drink["name"]:
             filterdrinks[drink["id"]] = {"name": drink["name"], "price": drink["price"]}
     return filterdrinks
 
@@ -47,11 +60,12 @@ def check_orders():
     products = filter_drinks(get_items("drinks"))
     if len(products) == 0:
         return
-    audits = get_items("audits")["audits"]
+    audits = filter_audits(get_items("audits")["audits"])
     for audit in audits:
         if audit["drink"] in products.keys():
             drinkid = audit["drink"]
             drink = products[drinkid]
+            event = drink["name"].split("#")[0].split(' ')[1]
             order, payid = drink["name"].split("#")[1].split("~")
             res = requests.post("%s/api/v1/organizers/%s/events/%s/orders/%s/payments/%s/confirm/" %(pretixserver, organizer, event, order, payid), headers=headers)
             if res.status_code != 200:
@@ -69,10 +83,11 @@ def check_orders():
 
 def main():
     global userid
-    headers = {}
+    global headers
     with open("authHeader.json") as headerfile:
         headers = json.load(headerfile)
     userid = get_userid()
+    filter_audits(get_items("audits")["audits"]) #fill cache with known payments
     while True:
         check_orders()
         sleep(3)

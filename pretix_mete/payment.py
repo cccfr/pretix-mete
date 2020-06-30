@@ -68,7 +68,7 @@ class Mete(BasePaymentProvider):
 
     def execute_payment(self, request: HttpRequest, payment: OrderPayment):
         item = {
-                "name": "~SL~ %s#%s~%s" %(payment.order.event.name, payment.order.code, payment.local_id),
+                "name": "~SL~ %s#%s~%s" %(payment.order.event.slug, payment.order.code, payment.local_id),
                 "caffeine": 0,
                 "alcohol": 0,
                 "energy": 0,
